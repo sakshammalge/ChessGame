@@ -1,0 +1,9 @@
+[package]
+name = "engine"
+description = "Chess engine core: board, move generation, search, evaluation"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]

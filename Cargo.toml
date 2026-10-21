@@ -1,0 +1,22 @@
+# The workspace: one repo, several crates, one shared build.
+# Each member has its own Cargo.toml; settings here apply to all of them.
+[workspace]
+members = ["engine", "uci", "tools"]
+resolver = "3"
+
+# Shared metadata that members inherit with `edition.workspace = true` etc.
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/sakshammalge/ChessGame"
+
+[workspace.dependencies]
+# Members refer to the engine as `engine = { workspace = true }`.
+engine = { path = "engine" }
+
+# `cargo build --release`: the build we measure speed with.
+[profile.release]
+codegen-units = 1 # compile the crate as one unit so LLVM can optimize across it
+lto = true        # link-time optimization: inline across crate boundaries
+panic = "abort"   # no unwinding machinery; a panic just stops the program
