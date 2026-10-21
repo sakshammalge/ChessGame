@@ -1,0 +1,46 @@
+# Continuous integration: GitHub runs these checks on every push to main and
+# on every pull request. A red X on the PR means one of them failed.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Cancel an older run on the same branch when a newer push arrives.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  # Turn every compiler warning into an error, so warnings can't pile up.
+  RUSTFLAGS: -D warnings
+
+jobs:
+  check:
+    name: fmt, clippy, test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Installs stable Rust with rustfmt and clippy, matching
+      # rust-toolchain.toml.
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      # Caches downloaded crates and build output between runs, so CI is fast.
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Check formatting
+        run: cargo fmt --all --check
+
+      - name: Clippy (lints)
+        run: cargo clippy --workspace --all-targets
+
+      - name: Tests (debug build)
+        run: cargo test --workspace
+
+      - name: Tests (release build)
+        run: cargo test --workspace --release

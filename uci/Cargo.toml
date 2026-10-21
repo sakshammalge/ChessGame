@@ -1,0 +1,15 @@
+[package]
+name = "uci"
+description = "UCI protocol front end for the ChessGame engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+# The executable is called `chessgame`, not `uci`.
+[[bin]]
+name = "chessgame"
+path = "src/main.rs"
+
+[dependencies]
+engine = { workspace = true }

@@ -114,7 +114,7 @@ can play our engine in Cute Chess, Arena, or on Lichess (as a bot) for free.
 Each phase ends with a working, tested engine and devlog + concept entries.
 Elo numbers are rough guides, not promises.
 
-### Phase 0: Setup
+### Phase 0: Setup (done)
 - Install Rust, create the Cargo workspace, set up CI (build, test, clippy).
 - Concepts: Cargo, crates, modules, `cargo test`, debug vs release builds.
 

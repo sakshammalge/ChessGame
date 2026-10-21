@@ -1,0 +1,11 @@
+[package]
+name = "tools"
+description = "Developer tools for ChessGame: perft, test suites, benchmarks"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[dependencies]
+engine = { workspace = true }

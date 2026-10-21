@@ -1,0 +1,5 @@
+# Tells rustup which Rust to use in this repo, so everyone (and CI) builds
+# with the same compiler and the same tools.
+[toolchain]
+channel = "stable"
+components = ["rustfmt", "clippy"]
