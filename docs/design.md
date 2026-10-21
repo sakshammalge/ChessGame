@@ -4,6 +4,9 @@ This is the living design document for the project. It records what we're
 building, the decisions we've made, and the roadmap. Update it whenever a
 decision changes.
 
+New to a term? Every one used here is explained in plain language in the
+[glossary](concepts/00-glossary.md).
+
 ## 1. Goals
 
 - Build a chess engine from scratch in **Rust**, with learning as the main goal.
@@ -176,6 +179,25 @@ something to show off sooner.
    measured result (perft, speed, or Elo).
 4. Add or update notes in `docs/concepts/` for anything new.
 5. One commit (or PR) per step.
+
+### Concept note standard
+
+Concept notes are written for someone meeting the idea for the first time.
+Each one covers:
+
+1. **The problem**: what goes wrong, or is slow, without this idea.
+2. **The idea in plain words**: no jargon, or jargon explained on first use.
+3. **A worked example**: a concrete position, small tree or bit pattern,
+   traced step by step (with ASCII diagrams where they help).
+4. **How it looks in our code**: the relevant Rust, with the Rust features it
+   uses explained too.
+5. **Pitfalls**: common bugs and how we test for them.
+6. **Measured effect**: what it did to perft speed, nodes searched, or Elo in
+   our engine.
+7. **Further reading**: Chess Programming Wiki pages and similar.
+
+The [glossary](concepts/00-glossary.md) gives short definitions of every term,
+and is updated whenever a new term appears.
 
 ## 6. References
 

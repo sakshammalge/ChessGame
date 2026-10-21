@@ -17,10 +17,13 @@ the bottom.
 **Files:**
 - `docs/design.md`: design plan and roadmap.
 - `docs/devlog.md`: this file.
+- `docs/concepts/00-glossary.md`: plain-language definitions of every term in
+  the plan.
 - `docs/concepts/01-how-chess-engines-work.md`: overview of Elo and the three
-  jobs of an engine.
+  jobs of an engine, with worked examples.
 - `README.md`: project description and links to the docs.
 
-**Concepts:** [How chess engines work](concepts/01-how-chess-engines-work.md)
+**Concepts:** [Glossary](concepts/00-glossary.md),
+[How chess engines work](concepts/01-how-chess-engines-work.md)
 
 **Next:** Phase 0, setting up the Rust workspace.

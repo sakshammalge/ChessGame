@@ -32,6 +32,33 @@ and a `u64` has 64 bits, so one number can say "which squares have a white
 knight": one bit per square. Moves and attacks are then computed with bit
 operations (`&`, `|`, `<<`, `>>`), just like flag manipulation in C.
 
+**Worked example.** At the start, the white pawns are on a2 to h2. With our
+square numbering (a1 = bit 0, ..., h1 = bit 7, a2 = bit 8, ..., h8 = bit 63)
+those are bits 8 to 15:
+
+```
+rank 8  . . . . . . . .      bits 56..63
+rank 7  . . . . . . . .
+rank 6  . . . . . . . .
+rank 5  . . . . . . . .
+rank 4  . . . . . . . .
+rank 3  . . . . . . . .      bits 16..23
+rank 2  1 1 1 1 1 1 1 1      bits  8..15
+rank 1  . . . . . . . .      bits  0..7
+        a b c d e f g h
+
+white_pawns = 0x0000_0000_0000_FF00
+```
+
+Shifting left by 8 moves every bit up one rank. AND-ing with the empty squares
+keeps only the pushes that aren't blocked:
+
+```rust
+let single_pushes = (white_pawns << 8) & !occupied;   // 0x0000_0000_00FF_0000
+```
+
+That one line computes all eight pawn pushes at once, with no loop.
+
 We check move generation with **perft**: count every possible position to a
 fixed depth and compare against known correct numbers.
 
@@ -58,6 +85,29 @@ back up assuming both sides pick their best move.
   final answer. Same result as minimax, but searches much deeper in the same
   time.
 
+**Worked example.** I have two moves, A and B. After each, my opponent has two
+replies. The numbers are the evaluation (from my side) after each reply:
+
+```
+                 me (pick the max)
+               /                \
+          move A                 move B
+     opp (pick the min)     opp (pick the min)
+        /       \              /       \
+       3         5            1         ?
+```
+
+- **Minimax:** after A, the opponent picks the reply worth 3 (the worse one for
+  me), so A is worth 3. After B, the opponent can reach 1, so B is worth at most
+  1, whatever "?" is. I play A.
+- **Alpha-beta:** once A is known to be worth 3, I'm guaranteed at least 3
+  (that's alpha). When B's first reply already gives 1, B can never beat 3, so
+  we **skip "?" entirely**. Same answer, less work.
+
+In a real game each position has around 35 moves and the tree is many plies
+deep, so the skipped branches add up to millions of positions. Trying the best
+moves first (move ordering) makes even more of these skips happen.
+
 ## Everything else is a refinement
 
 Most of the advanced techniques make one of the three jobs faster or smarter:
@@ -70,7 +120,9 @@ Most of the advanced techniques make one of the three jobs faster or smarter:
   skip far more branches.
 - **Pruning and reductions**: search unpromising moves less deeply.
 
-Each of these gets its own concept note when we implement it.
+Each of these gets its own detailed concept note when we implement it. For
+short definitions of every term in the plan, see the
+[glossary](00-glossary.md).
 
 ## Further reading
 
